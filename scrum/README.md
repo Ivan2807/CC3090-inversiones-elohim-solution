@@ -1,9 +1,10 @@
 # SCRUM
 
-Contiene la documentaci[on relativa a la gestión de proyecto utilizando el framework ágil Scrum.
+Contains documentation related to project management using the Agile Scrum framework.
 
-Incluye: 
-- Historias de usuario.
-- Tareas relacionadas a cada sprint
-- Objetivos de cada sprint
-- Seguimiento de progreso
+Includes:
+
+* User stories
+* Tasks related to each sprint
+* Sprint goals
+* Progress tracking
