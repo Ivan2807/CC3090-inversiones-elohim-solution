@@ -1,0 +1,7 @@
+[submodule "backend"]
+  path = ./backend
+  url = https://github.com/angc-labs/CC3090-inversiones-elohim-solution-backend
+
+[submodule "frontend"]
+  path = ./frontend
+  url = https://github.com/angc-labs/CC3090-inversiones-elohim-solution-frontend
