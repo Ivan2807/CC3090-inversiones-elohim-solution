@@ -1,36 +1,41 @@
-# .NET / ASP.NET Core
-**/bin/
-**/obj/
-**/out/
-*.user
-*.suo
-*.userosscache
-*.sln.docstates
-.vs/
-*.swp
-*.DS_Store
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Publicación
-**/publish/
-**/Properties/launchSettings.json
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
-# Entity Framework
-**/Migrations/*.cs
+# testing
+/coverage
 
-# Variables de entorno
-.env
-.env.local
-.env.production
-.env.*.local
+# next.js
+/.next/
+/out/
 
+# production
+/build
 
-.idea/
-.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
-*.swp
-*.swo
-
+# misc
 .DS_Store
-Thumbs.db
-desktop.ini
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
