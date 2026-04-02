@@ -1,19 +1,24 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-WORKDIR /src
-
-COPY ["src/ElohimShop.API/ElohimShop.API.csproj", "src/ElohimShop.API/"]
-COPY ["src/ElohimShop.Application/ElohimShop.Application.csproj", "src/ElohimShop.Application/"]
-COPY ["src/ElohimShop.Infrastructure/ElohimShop.Infrastructure.csproj", "src/ElohimShop.Infrastructure/"]
-COPY ["src/ElohimShop.Domain/ElohimShop.Domain.csproj", "src/ElohimShop.Domain/"]
-
-RUN dotnet restore "src/ElohimShop.API/ElohimShop.API.csproj"
-COPY . .
-
-RUN dotnet publish "src/ElohimShop.API/ElohimShop.API.csproj" -c Release -o /app
-
-FROM mcr.microsoft.com/dotnet/aspnet:9.0
+FROM node:22-alpine AS deps
 WORKDIR /app
-COPY --from=build /app .
-ENV ASPNETCORE_URLS=http://+:5000
-EXPOSE 5000
-ENTRYPOINT ["dotnet", "ElohimShop.API.dll"]
+COPY package.json pnpm-lock.yaml ./
+RUN corepack enable && pnpm install --frozen-lockfile
+
+FROM node:22-alpine AS builder
+WORKDIR /app
+RUN corepack enable
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN pnpm build
+
+FROM node:22-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+USER nextjs
+EXPOSE 3000
+ENV PORT=3000
+ENV NEXT_PUBLIC_API_URL=http://backend:5000
+CMD ["node", "server.js"]
