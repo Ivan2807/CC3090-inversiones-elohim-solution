@@ -49,3 +49,5 @@ services:
 
 volumes:
   postgres_data:
+    name: elohim_postgres_data
+    external: true
