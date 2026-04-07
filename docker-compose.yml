@@ -27,6 +27,10 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
       ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=${DB_NAME:-elohim};Username=${DB_USER:-postgres};Password=${DB_PASSWORD:-postgres}"
+      DB_HOST: db
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_NAME: ${DB_NAME:-elohim}
 
   frontend:
     build: ./frontend
