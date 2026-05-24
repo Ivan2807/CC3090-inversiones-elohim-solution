@@ -9,7 +9,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./db/elohim_db.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
-      - ./db/patch/001_stock_minimo.sql:/docker-entrypoint-initdb.d/02-stock-minimo.sql:ro
     ports:
       - "5433:5432"
     healthcheck:
