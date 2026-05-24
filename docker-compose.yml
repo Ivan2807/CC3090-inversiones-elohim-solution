@@ -8,6 +8,8 @@ services:
       POSTGRES_DB: ${DB_NAME:-elohim}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./db/elohim_db.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./db/patch/001_stock_minimo.sql:/docker-entrypoint-initdb.d/02-stock-minimo.sql:ro
     ports:
       - "5433:5432"
     healthcheck:
@@ -21,6 +23,8 @@ services:
     restart: unless-stopped
     ports:
       - "5000:5000"
+    volumes:
+      - ./db:/db:ro
     env_file:
       - ./backend/.env
     depends_on:
@@ -33,6 +37,7 @@ services:
       DB_USER: ${DB_USER:-postgres}
       DB_PASSWORD: ${DB_PASSWORD:-postgres}
       DB_NAME: ${DB_NAME:-elohim}
+      SEED_DATA: ${SEED_DATA:-${SEED_DEMO_DATA:-true}}
 
   frontend:
     build:
