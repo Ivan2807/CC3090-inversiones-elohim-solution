@@ -5,10 +5,9 @@ services:
     environment:
       POSTGRES_USER: ${DB_USER:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
-      POSTGRES_DB: ${DB_NAME:-elohim}
+      POSTGRES_DB: ${DB_NAME:-dmhub}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./db/elohim_db.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
     ports:
       - "5433:5432"
     healthcheck:
@@ -22,20 +21,16 @@ services:
     restart: unless-stopped
     ports:
       - "5000:5000"
-    volumes:
-      - ./db:/db:ro
-    env_file:
-      - ./backend/.env
     depends_on:
       db:
         condition: service_healthy
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
-      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=${DB_NAME:-elohim};Username=${DB_USER:-postgres};Password=${DB_PASSWORD:-postgres}"
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=${DB_NAME:-dmhub};Username=${DB_USER:-postgres};Password=${DB_PASSWORD:-postgres}"
       DB_HOST: db
       DB_USER: ${DB_USER:-postgres}
       DB_PASSWORD: ${DB_PASSWORD:-postgres}
-      DB_NAME: ${DB_NAME:-elohim}
+      DB_NAME: ${DB_NAME:-dmhub}
       SEED_DATA: ${SEED_DATA:-${SEED_DEMO_DATA:-true}}
 
   frontend:
@@ -64,5 +59,4 @@ services:
 
 volumes:
   postgres_data:
-    name: elohim_postgres_data
-    external: true
+    name: dmhub_postgres_data
