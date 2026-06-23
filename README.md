@@ -1,4 +1,4 @@
-# DMV Hub - Inversiones Elohim Solution
+# DM Hub - Distributors Marketplace Hub
 
 Plataforma unificada multi-tenant (multi-inquilino) diseñada para digitalizar y gestionar operaciones comerciales de tiendas de distribución y logística, integrando un constructor visual de páginas web (Storefront), control de inventarios físicos por sucursal, pasarela de pagos integrada y reportes avanzados.
 
@@ -42,7 +42,7 @@ graph TD
 
     subgraph Database Layer
         BControllers -->|PlatformDbContext| DB[(PostgreSQL Port 5433)]
-        BControllers -->|ElohimShopDbContext| DB_Legacy[(Legacy Esmira DB)]
+        BControllers -->|ElohimShopDbContext| DB_Legacy[(Legacy DB)]
         Frontend -->|Better-Auth Client| DB
     end
 
@@ -104,5 +104,5 @@ El orquestador levantará tres contenedores principales:
 ### 4. Accesos útiles
 * **Portal del Cliente / Administrador**: [http://localhost:3000](http://localhost:3000)
 * **Documentación interactiva Swagger**: [http://localhost:5000/swagger](http://localhost:5000/swagger)
-* **Cuenta Super Admin por Defecto**: `superadmin@elohim.gt` / `SuperAdmin123!`
-* **Cuentas Demo de Prueba** *(si `SEED_DATA=true`)*: `cajero.demo@elohim.gt` / `Demo123!` o `cliente.demo@elohim.gt` / `Demo123!`
+* **Cuenta Super Admin por Defecto**: `superadmin@dmhub.gt` / `SuperAdmin123!`
+* **Cuentas Demo de Prueba** *(si `SEED_DATA=true`)*: `carlos.demo@dmhub.gt` / `Demo123!` o `cliente.demo@dmhub.gt` / `Demo123!`
