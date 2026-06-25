@@ -55,6 +55,33 @@ graph TD
 
 ---
 
+## 🌟 Características Destacadas
+
+### 🎨 Constructor Visual (Storefront Builder)
+* **Edición Visual Intuitiva**: Diseña la página de inicio del storefront con un editor de secciones tipo Shopify (anuncios, hero, grilla de productos, pie de página).
+* **Exportar e Importar Diseños en JSON**: Ahora es posible exportar la configuración visual completa del diseño de tu tienda a un archivo local `.json` y volver a cargarlo mediante la función de importación para copias de seguridad rápidas, clonación o restauración del diseño.
+
+### 📋 Tablero Kanban en Tiempo Real
+* **Flujo Simplificado de Pedidos**: Pestaña dedicada dentro del portal para el personal (`cajero`, `administrador`, `superadmin`) para gestionar visualmente las reservaciones y pagos estructurados en 3 columnas clave:
+  - **Pendiente de Pago**: Reservas que están pendientes de verificar su pago.
+  - **Pago Verificado**: Pagos aprobados por el personal o procesados de manera exitosa.
+  - **Despachado**: Pedidos que ya han sido empaquetados y enviados/entregados.
+* **Drag & Drop Interactivo**: Mueve las tarjetas de pedidos entre las columnas del tablero usando gestos nativos de arrastrar y soltar.
+* **Consulta en Tiempo Real (Real-time Polling)**: Actualización automática en segundo plano cada 6 segundos con contador visual e indicador de estado. El polling se pausa de forma inteligente al iniciar un arrastre para evitar colisiones de estado.
+* **Alertas Auditivas Nativas**: Sistema de alertas sonoras y chimes interactivos generados en tiempo real con Web Audio API (sin dependencias de archivos externos) que avisan sobre nuevos pedidos entrantes y transiciones exitosas.
+
+### 👥 Control de Acceso por Roles (RBAC)
+La plataforma gestiona los permisos con un estricto control de acceso basado en roles para asegurar la operatividad diaria:
+
+| Rol | Acceso Storefront | Dashboard & Sucursales | Gestión de Productos | Tablero Kanban & Pagos | Integraciones & Config |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Cliente** | ✅ Acceso total | ❌ Sin acceso | ❌ Sin acceso | ❌ Sin acceso | ❌ Sin acceso |
+| **Cajero** | ✅ Acceso total | ✅ Solo lectura | ❌ Sin acceso | ✅ Control operativo | ❌ Sin acceso |
+| **Administrador** | ✅ Acceso total | ✅ Acceso total | ✅ Gestión total | ✅ Control operativo | ✅ Config. de Tienda |
+| **Super Admin** | ✅ Acceso total | ✅ Acceso global | ✅ Acceso global | ✅ Acceso global | ✅ Control global |
+
+---
+
 ## 📂 Directorio de Documentación
 
 Hemos reestructurado la documentación para mantenerla al día con el código refacturado. A continuación se presentan los enlaces a las guías detalladas de cada componente:
@@ -106,3 +133,4 @@ El orquestador levantará tres contenedores principales:
 * **Documentación interactiva Swagger**: [http://localhost:5000/swagger](http://localhost:5000/swagger)
 * **Cuenta Super Admin por Defecto**: `superadmin@dmhub.gt` / `SuperAdmin123!`
 * **Cuentas Demo de Prueba** *(si `SEED_DATA=true`)*: `carlos.demo@dmhub.gt` / `Demo123!` o `cliente.demo@dmhub.gt` / `Demo123!`
+* **Administrador Personalizado**: Configura las variables `SEED_USER_EMAIL` y `SEED_USER_PASSWORD` en el `.env` del backend para inicializar un usuario administrador específico en la plataforma durante el primer arranque.
