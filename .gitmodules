@@ -7,3 +7,8 @@
   path = frontend
   url = https://github.com/angc-labs/CC3090-inversiones-elohim-solution-frontend.git
   branch = main
+
+[submodule "docs"]
+  path = docs
+  url = https://github.com/angc-labs/CC3090-inversiones-elohim-solution-docs.git
+  branch = main
