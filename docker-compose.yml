@@ -49,7 +49,17 @@ services:
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:5000}
       BACKEND_API_URL: ${BACKEND_API_URL:-http://backend:5000}
-      
+
+  docs:
+    build:
+      context: ./docs
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./docs:/app
+      - /app/node_modules
+
 volumes:
   postgres_data:
     name: dmhub_postgres_data
