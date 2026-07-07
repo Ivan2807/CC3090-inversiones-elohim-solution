@@ -1,6 +1,6 @@
 # DM Hub - Distributors Marketplace Hub
 
-Plataforma unificada multi-tenant (multi-inquilino) diseñada para digitalizar y gestionar operaciones comerciales de tiendas de distribución y logística, integrando un constructor visual de páginas web (Storefront), control de inventarios físicos por sucursal, pasarela de pagos integrada y reportes avanzados.
+Plataforma unificada multi-tenant diseñada para digitalizar y gestionar operaciones comerciales de tiendas de distribución y logística, integrando un constructor visual de páginas web (Storefront), control de inventarios físicos por sucursal, pasarela de pagos integrada y reportes avanzados.
 
 ---
 
@@ -116,7 +116,6 @@ cp .env.example .env
 cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env
 ```
-*(Asegúrate de rellenar las llaves de Stripe y Cloudinary en los archivos correspondientes si requieres probar las pasarelas).*
 
 ### 3. Levantar la aplicación
 ```bash
