@@ -1,0 +1,64 @@
+
+
+name: Deploy DM Hub
+
+on:
+
+  repository_dispatch:
+    types: [submodule-updated]
+
+
+  workflow_dispatch: {}
+
+
+  push:
+    branches: [main]
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  bump-submodule:
+    name: Actualizar submódulo
+    if: github.event_name == 'repository_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          token: ${{ secrets.MAIN_REPO_PAT }}  
+      - name: Actualizar el submódulo que cambió
+        run: |
+          git submodule update --remote --checkout "${{ github.event.client_payload.submodule }}"
+
+      - name: Commit y push del puntero actualizado
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "${{ github.event.client_payload.submodule }}"
+          # Si no hay cambios que commitear (raro, pero posible), no falla el workflow
+          git diff --cached --quiet || git commit -m "chore: bump ${{ github.event.client_payload.submodule }} a ${{ github.event.client_payload.sha }}"
+          git push
+
+ 
+  deploy:
+    name: Desplegar localmente (docker compose)
+    needs: [bump-submodule]
+    if: always() && (needs.bump-submodule.result == 'success' || needs.bump-submodule.result == 'skipped')
+    runs-on: self-hosted
+    steps:
+  
+      - name: Actualizar el repo local (con submódulos)
+        run: |
+          set -e
+          git fetch origin main
+          git reset --hard origin/main
+          git submodule update --init --recursive --remote
+
+      - name: Reconstruir y levantar contenedores
+        run: |
+          set -e
+          docker compose up -d --build
+      - name: Limpiar imágenes viejas
+        run: docker image prune -f
