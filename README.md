@@ -122,6 +122,15 @@ cp frontend/.env.example frontend/.env
 docker compose up -d --build
 ```
 
+Tambien puedes usar los scripts incluidos en la raiz del proyecto:
+
+```bash
+./start-dev.sh   # Desarrollo con hot reload (usa docker-compose.override.yml)
+./deploy.sh      # Deploy sin override de development
+```
+
+`./start.sh` se mantiene como acceso rapido para el flujo de desarrollo.
+
 El orquestador levantará tres contenedores principales:
 * **Base de datos (db)**: Servidor PostgreSQL levantado en el puerto host `5433`.
 * **API Backend (backend)**: Servidor de ASP.NET Core ejecutándose en el puerto `5000`.
