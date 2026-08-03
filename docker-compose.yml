@@ -41,6 +41,7 @@ services:
       args:
         NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:5000}
         BACKEND_API_URL: ${BACKEND_API_URL:-http://backend:5000}
+        NEXT_PUBLIC_MAIN_DOMAIN: ${NEXT_PUBLIC_MAIN_DOMAIN:-}
     restart: unless-stopped
     ports:
       - "3000:3000"
@@ -49,6 +50,7 @@ services:
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:5000}
       BACKEND_API_URL: ${BACKEND_API_URL:-http://backend:5000}
+      NEXT_PUBLIC_MAIN_DOMAIN: ${NEXT_PUBLIC_MAIN_DOMAIN:-}
 
   docs:
     build:
