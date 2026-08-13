@@ -8,8 +8,6 @@ services:
       POSTGRES_DB: ${DB_NAME:-dmhub}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5433:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
       interval: 5s
@@ -19,13 +17,11 @@ services:
   backend:
     build: ./backend
     restart: unless-stopped
-    ports:
-      - "5000:5000"
     depends_on:
       db:
         condition: service_healthy
     environment:
-      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Production}
       ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=${DB_NAME:-dmhub};Username=${DB_USER:-postgres};Password=${DB_PASSWORD:-postgres}"
       DB_HOST: db
       DB_USER: ${DB_USER:-postgres}
@@ -39,28 +35,40 @@ services:
     build:
       context: ./frontend
       args:
-        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:5000}
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://dmhub.fun}
         BACKEND_API_URL: ${BACKEND_API_URL:-http://backend:5000}
-        NEXT_PUBLIC_MAIN_DOMAIN: ${NEXT_PUBLIC_MAIN_DOMAIN:-}
+        NEXT_PUBLIC_MAIN_DOMAIN: ${NEXT_PUBLIC_MAIN_DOMAIN:-dmhub.fun}
     restart: unless-stopped
-    ports:
-      - "3000:3000"
     depends_on:
       - backend
     environment:
-      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:5000}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://dmhub.fun}
       BACKEND_API_URL: ${BACKEND_API_URL:-http://backend:5000}
-      NEXT_PUBLIC_MAIN_DOMAIN: ${NEXT_PUBLIC_MAIN_DOMAIN:-}
+      NEXT_PUBLIC_MAIN_DOMAIN: ${NEXT_PUBLIC_MAIN_DOMAIN:-dmhub.fun}
 
   docs:
     build:
       context: ./docs
     restart: unless-stopped
-    ports:
-      - "3001:3001"
     volumes:
       - ./docs:/app
       - /app/node_modules
+
+  nginx:
+    profiles: ["production"]
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - frontend
+      - backend
+      - docs
 
 volumes:
   postgres_data:
