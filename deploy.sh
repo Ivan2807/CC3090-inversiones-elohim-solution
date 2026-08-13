@@ -37,7 +37,7 @@ fi
 export COMPOSE_FILE=docker-compose.yml
 
 echo "==> Desplegando servicios con Docker Compose (Puerto 80/443 expuestos)..."
-docker compose --profile production up -d --build --remove-orphans "$@"
+docker compose --profile production up -d --build --remove-orphans --force-recreate "$@"
 
 # 5. Obtener / Renovar certificado SSL con Certbot mediante desafío HTTP-01
 echo "==> Solicitando/Verificando certificado SSL Let's Encrypt con Certbot..."
