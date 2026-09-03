@@ -31,6 +31,7 @@ services:
       SEED_DATA: ${SEED_DATA:-${SEED_DEMO_DATA:-true}}
       SEED_USER_EMAIL: ${SEED_USER_EMAIL}
       SEED_USER_PASSWORD: ${SEED_USER_PASSWORD}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
 
   frontend:
     build:
@@ -39,6 +40,7 @@ services:
         NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://dmhub.fun}
         BACKEND_API_URL: ${BACKEND_API_URL:-http://backend:5000}
         NEXT_PUBLIC_MAIN_DOMAIN: ${NEXT_PUBLIC_MAIN_DOMAIN:-dmhub.fun}
+        NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${NEXT_PUBLIC_GOOGLE_CLIENT_ID}
     restart: unless-stopped
     depends_on:
       - backend
@@ -46,6 +48,7 @@ services:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://dmhub.fun}
       BACKEND_API_URL: ${BACKEND_API_URL:-http://backend:5000}
       NEXT_PUBLIC_MAIN_DOMAIN: ${NEXT_PUBLIC_MAIN_DOMAIN:-dmhub.fun}
+      NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${NEXT_PUBLIC_GOOGLE_CLIENT_ID}
 
   docs:
     build:
